@@ -12,6 +12,6 @@ git push origin main
 Write-Host "`n2. Connexion au VPS pour nettoyer et redémarrer..." -ForegroundColor Yellow
 Write-Host ">>> ATTENTION : Préparez-vous à coller le mot de passe AkueMax@2022 <<<" -ForegroundColor Red
 
-$SSH_CMD = "cd /root/nihan-backend && git pull origin main && docker compose down && docker compose build maison-nihan-backend && docker compose up -d && docker compose logs -f maison-nihan-backend"
+$SSH_CMD = "cd /root/nihan-backend && git fetch origin && git reset --hard origin/main && docker compose down && docker compose build maison-nihan-backend && docker compose up -d && docker compose logs -f maison-nihan-backend"
 
 ssh root@157.180.127.70 $SSH_CMD
