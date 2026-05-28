@@ -69,6 +69,7 @@ services:
       - HOSTNAME=0.0.0.0
       - PORT=8000
       - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_5ffce8036cc6a176fddb6390c067fbfbc449e2b4ff75103358daad4d65f6a825
+      - MEDUSA_BACKEND_URL=http://maison-nihan-backend:9000
       - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://nihan.digitalh.net:9000
       - NEXT_PUBLIC_BASE_URL=http://nihan.digitalh.net
       - NEXT_PUBLIC_DEFAULT_REGION=dk
