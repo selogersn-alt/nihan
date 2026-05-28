@@ -17,8 +17,11 @@ COPY apps/backend ./apps/backend
 
 WORKDIR /app/apps/backend
 
+# Create a symlink to pnpm-lock.yaml so Medusa CLI detects pnpm instead of defaulting to npm
+RUN ln -s /app/pnpm-lock.yaml pnpm-lock.yaml
+
 # Expose Medusa port
 EXPOSE 9000
 
 # Start Medusa development server (automatically runs migrations and seeding setup)
-CMD ["sh", "-c", "pnpm exec medusa db:migrate && pnpm run dev"]
+CMD ["sh", "-c", "echo 'Waiting for PostgreSQL...' && sleep 10 && pnpm exec medusa db:migrate && pnpm run dev"]

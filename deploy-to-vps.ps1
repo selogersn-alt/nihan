@@ -1,38 +1,26 @@
-# Script de Déploiement Staging Global en 1 Clic (Maison NIHAN)
-# Ce script pousse votre code sur GitHub, copie le mot de passe du VPS dans votre presse-papiers,
-# puis se connecte en SSH au VPS pour déclencher la mise à jour et la reconstruction automatique.
+param(
+    [string]$VPS_IP = "157.180.127.70",
+    [string]$VPS_USER = "root",
+    [string]$REMOTE_DIR = "/root/nihan-backend"
+)
 
-$vpsIp = "157.180.127.70"
-$vpsUser = "root"
-$vpsPassword = "AkueMax@2022"
+Write-Host "Envoi des fichiers corrigés vers le VPS ($VPS_IP)..." -ForegroundColor Cyan
 
-Write-Host "==========================================================" -ForegroundColor Yellow
-Write-Host "   DÉPLOIEMENT STAGING AUTOMATIQUE EN 1 CLIC" -ForegroundColor Yellow
-Write-Host "==========================================================" -ForegroundColor Yellow
+# 1. Copie du fichier Dockerfile Backend
+Write-Host "-> Envoi du Dockerfile Backend..."
+scp .\apps\backend\Dockerfile ${VPS_USER}@${VPS_IP}:${REMOTE_DIR}/apps/backend/Dockerfile
 
-# 1. Pousser le code local sur GitHub
-Write-Host "`n1. Envoi de vos dernières corrections locales sur GitHub..." -ForegroundColor Cyan
-.\git-push.ps1
+# 2. Copie du fichier index.tsx Storefront
+Write-Host "-> Envoi du fichier index.tsx (Storefront)..."
+scp .\apps\storefront\src\modules\diagnostic\index.tsx ${VPS_USER}@${VPS_IP}:${REMOTE_DIR}/apps/storefront/src/modules/diagnostic/index.tsx
 
-if ($LASTEXITCODE -ne 0) {
-    Write-Error "`n[ERREUR] Impossible d'envoyer le code sur GitHub. Déploiement annulé."
-    exit 1
-}
+# 2.5 Copie de medusa-config.ts
+Write-Host "-> Envoi du fichier medusa-config.ts..."
+scp .\apps\backend\medusa-config.ts ${VPS_USER}@${VPS_IP}:${REMOTE_DIR}/apps/backend/medusa-config.ts
 
-# 2. Copier le mot de passe dans le presse-papiers pour un confort maximal
-Write-Host "`n2. Copie du mot de passe dans votre presse-papiers..." -ForegroundColor Cyan
-Set-Clipboard -Value $vpsPassword
+Write-Host "Les fichiers ont été copiés. Redémarrage des conteneurs sur le VPS..." -ForegroundColor Cyan
 
-Write-Host "----------------------------------------------------------" -ForegroundColor Yellow
-Write-Host "👉 LE MOT DE PASSE A ÉTÉ COPIÉ DANS VOTRE PRESSE-PAPIERS !" -ForegroundColor Green
-Write-Host "   Faites un simple CLIC-DROIT (ou Ctrl+V) pour le coller" -ForegroundColor Green
-Write-Host "   dès que la console SSH vous demandera le mot de passe." -ForegroundColor Green
-Write-Host "----------------------------------------------------------" -ForegroundColor Yellow
+# 3. Connexion SSH pour rebuild et restart
+ssh ${VPS_USER}@${VPS_IP} "cd $REMOTE_DIR && docker compose build maison-nihan-backend maison-nihan-storefront && docker compose up -d"
 
-# 3. Connexion SSH au VPS et exécution des commandes de mise à jour
-Write-Host "`n3. Connexion SSH au VPS ($vpsIp) en cours..." -ForegroundColor Cyan
-ssh -t "${vpsUser}@${vpsIp}" "cd nihan-backend && git pull origin main && ./deploy-vps.sh"
-
-Write-Host "`n==========================================================" -ForegroundColor Yellow
-Write-Host "   [FIN DE SESSION] Processus terminé." -ForegroundColor Yellow
-Write-Host "==========================================================" -ForegroundColor Yellow
+Write-Host "✅ Déploiement terminé ! Le backend devrait maintenant démarrer correctement." -ForegroundColor Green
