@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maison NIHAN — Simulateur Diagnostic & Dropship de Prestige</title>
+    
+    <!-- Google Fonts for Luxury Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:wght@200..800&family=Cinzel:wght@400..700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN for high fidelity design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        cinzel: ['Cinzel', 'serif'],
+                    },
+                    colors: {
+                        luxury: {
+                            beige: '#FAF9F5',
+                            gold: '#D4AF37',
+                            goldDark: '#B5A48B',
+                            charcoal: '#111111',
+                            sand: '#F3EFE9',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        @keyframes fadeInLuxury {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-luxury-in {
+            animation: fadeInLuxury 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .luxury-shadow {
+            box-shadow: 0 40px 80px -30px rgba(181, 164, 139, 0.15), 0 1px 3px rgba(0, 0, 0, 0.02);
+        }
+        .glass-premium {
+            background: rgba(255, 253, 249, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FAF9F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #B5A48B;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="bg-luxury-beige font-sans text-luxury-charcoal min-h-screen flex flex-col antialiased selection:bg-luxury-goldDark selection:text-white">
+
+    <!-- Header / Brand Banner -->
+    <header class="border-b border-[#E5E7EB]/40 bg-white/60 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex flex-col">
+                <span class="font-cinzel text-xs tracking-[0.3em] text-luxury-goldDark font-semibold">MAISON NIHAN</span>
+                <span class="text-[9px] uppercase tracking-widest text-gray-400 font-medium">Haute Cosmétique & Art de Vivre</span>
+            </div>
+            
+            <div class="flex items-center gap-6">
+                <span class="px-3 py-1 bg-green-50 text-green-700 text-[10px] uppercase font-bold tracking-widest rounded-full border border-green-200/50 flex items-center gap-1.5 animate-pulse">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Mode Démo Actif (Sans Serveur)
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start my-4">
+        
+        <!-- LEFT PANEL: Dynamic Diagnostic Quiz UX (7 Columns) -->
+        <section class="lg:col-span-7 space-y-6">
+            <div class="bg-white border border-gray-100 luxury-shadow rounded-sm p-8 md:p-12 relative overflow-hidden min-h-[620px] flex flex-col justify-between">
+                
+                <!-- Sleek Progress Bar -->
+                <div id="progressBarContainer" class="absolute top-0 left-0 right-0 h-[3px] bg-luxury-beige hidden">
+                    <div id="progressBar" class="h-full bg-luxury-goldDark transition-all duration-500 ease-out w-0"></div>
+                </div>
+
+                <!-- Watermark watermark -->
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-[0.015] pointer-events-none text-[220px] font-serif select-none font-bold">
+                    NH
+                </div>
+
+                <!-- Content Area -->
+                <div id="quizContent" class="flex-grow flex flex-col justify-center">
+                    
+                    <!-- STEP 0: INTRO -->
+                    <div id="step0" class="text-center space-y-6 animate-luxury-in">
+                        <div class="w-16 h-16 border border-luxury-goldDark/30 rounded-full flex items-center justify-center text-luxury-goldDark font-serif text-sm mx-auto tracking-widest bg-luxury-beige/50">
+                            NH
+                        </div>
+                        <span class="text-[10px] tracking-[0.3em] text-luxury-goldDark font-bold uppercase block">
+                            EXPÉRIENCE SENSORIELLE
+                        </span>
+                        <h1 class="font-serif text-3xl md:text-5xl text-luxury-charcoal uppercase tracking-wide leading-tight">
+                            VOTRE RITUEL <br> SUR-MESURE
+                        </h1>
+                        <p class="text-xs text-gray-500 leading-relaxed max-w-md mx-auto font-medium">
+                            Révélez l'harmonie parfaite de votre rituel de soins et d'art de vivre. Ce diagnostic de prestige évalue vos besoins cutanés, vos affinités nocturnes et votre équilibre sensoriel.
+                        </p>
+                        <div class="w-16 h-[1px] bg-luxury-goldDark/30 mx-auto pt-2"></div>
+                        <div class="pt-4">
+                            <button onclick="startQuiz()" class="px-10 py-4 bg-luxury-charcoal hover:bg-luxury-goldDark text-white text-[10px] font-bold uppercase tracking-[0.25em] transition-all duration-300 rounded-sm hover:scale-[1.03] hover:shadow-lg shadow-black/10">
+                                COMMENCER LE DIAGNOSTIC &rarr;
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 1: SKIN TYPE -->
+                    <div id="step1" class="space-y-6 hidden animate-luxury-in">
+                        <div class="flex justify-between items-center text-[10px] text-luxury-goldDark font-bold uppercase tracking-widest">
+                            <span>DIAGNOSTIC DE LA MAISON</span>
+                            <span>Question 1 / 3</span>
+                        </div>
+                        <h3 class="font-serif text-2xl text-luxury-charcoal uppercase tracking-wide border-b border-gray-100 pb-4">
+                            Quelle est la nature actuelle de votre épiderme ?
+                        </h3>
+                        <div class="space-y-3 pt-2">
+                            <div onclick="selectSkin('seche')" class="border p-4 rounded-sm cursor-pointer transition-all duration-300 hover:scale-[1.01] hover:shadow-sm border-gray-200 hover:border-luxury-goldDark/60 hover:bg-luxury-beige/40 flex items-center gap-4">
+                                <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center skin-radio" id="radio-seche">
+                                    <div class="w-2 h-2 rounded-full bg-luxury-goldDark hidden"></div>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-luxury-charcoal uppercase tracking-wider">Sèche & Déshydratée</span>
+                                    <span class="block text-[10px] text-gray-500 mt-0.5 font-medium">Sensations de tiraillements, sécheresse localisée, besoin d'hydratation riche.</span>
+                                </div>
+                            </div>
+                            <div onclick="selectSkin('mixte')" class="border p-4 rounded-sm cursor-pointer transition-all duration-300 hover:scale-[1.01] hover:shadow-sm border-gray-200 hover:border-luxury-goldDark/60 hover:bg-luxury-beige/40 flex items-center gap-4">
+                                <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center skin-radio" id="radio-mixte">
+                                    <div class="w-2 h-2 rounded-full bg-luxury-goldDark hidden"></div>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-luxury-charcoal uppercase tracking-wider">Mixte à Grasse</span>
+                                    <span class="block text-[10px] text-gray-500 mt-0.5 font-medium">Brillance sur la zone médiane, teint irrégulier, recherche de pureté et d'éclat.</span>
+                                </div>
+                            </div>
+                            <div onclick="selectSkin('sensible')" class="border p-4 rounded-sm cursor-pointer transition-all duration-300 hover:scale-[1.01] hover:shadow-sm border-gray-200 hover:border-luxury-goldDark/60 hover:bg-luxury-beige/40 flex items-center gap-4">
+                                <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center skin-radio" id="radio-sensible">
+                                    <div class="w-2 h-2 rounded-full bg-luxury-goldDark hidden"></div>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-luxury-charcoal uppercase tracking-wider">Sensible & Réactive</span>
+                                    <span class="block text-[10px] text-gray-500 mt-0.5 font-medium">Rougeurs diffuses, inconforts passagers, besoin de douceur et d'apaisement.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: CONCERN -->
+                    <div id="step2" class="space-y-6 hidden animate-luxury-in">
+                        <div class="flex justify-between items-center text-[10px] text-luxury-goldDark font-bold uppercase tracking-widest">
+                            <span>DIAGNOSTIC DE LA MAISON</span>
+                            <span>Question 2 / 3</span>
+                        </div>
+                        <h3 class="font-serif text-2xl text-luxury-charcoal uppercase tracking-wide border-b border-gray-100 pb-4">
+                            Quelle est votre préoccupation ou recherche prioritaire ?
+                        </h3>
+                        <div class="space-y-3 pt-2">
+                            <div onclick="selectConcern('anti_age')" class="border p-4 rounded-sm cursor-pointer transition-all duration-300 hover:scale-[1.01] hover:shadow-sm border-gray-200 hover:border-luxury-goldDark/60 hover:bg-luxury-beige/40 flex items-center gap-4">
+                                <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center concern-radio" id="radio-anti_age">
+                                    <div class="w-2 h-2 rounded-full bg-luxury-goldDark hidden"></div>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-luxury-charcoal uppercase tracking-wider">Régénération & Anti-Âge</span>
+                                    <span class="block text-[10px] text-gray-500 mt-0.5 font-medium">Atténuer les ridules, stimuler la fermeté et redessiner les contours du visage.</span>
+                                </div>
+                            </div>
+                            <div onclick="selectConcern('teint')" class="border p-4 rounded-sm cursor-pointer transition-all duration-300 hover:scale-[1.01] hover:shadow-sm border-gray-200 hover:border-luxury-goldDark/60 hover:bg-luxury-beige/40 flex items-center gap-4">
+                                <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center concern-radio" id="radio-teint">
+                                    <div class="w-2 h-2 rounded-full bg-luxury-goldDark hidden"></div>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-luxury-charcoal uppercase tracking-wider">Luminosité & Pureté</span>
+                                    <span class="block text-[10px] text-gray-500 mt-0.5 font-medium">Resserrer le grain de peau, éliminer le teint terne pour capter naturellement la lumière.</span>
+                                </div>
+                            </div>
+                            <div onclick="selectConcern('sommeil')" class="border p-4 rounded-sm cursor-pointer transition-all duration-300 hover:scale-[1.01] hover:shadow-sm border-gray-200 hover:border-luxury-goldDark/60 hover:bg-luxury-beige/40 flex items-center gap-4">
+                                <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center concern-radio" id="radio-sommeil">
+                                    <div class="w-2 h-2 rounded-full bg-luxury-goldDark hidden"></div>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-luxury-charcoal uppercase tracking-wider">Sommeil & Bien-être nocturne</span>
+                                    <span class="block text-[10px] text-gray-500 mt-0.5 font-medium">Améliorer le repos nocturne, apaiser le corps avec la fraîcheur thermique de la soie.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: TEXTURE -->
+                    <div id="step3" class="space-y-6 hidden animate-luxury-in">
+                        <div class="flex justify-between items-center text-[10px] text-luxury-goldDark font-bold uppercase tracking-widest">
+                            <span>DIAGNOSTIC DE LA MAISON</span>
+                            <span>Question 3 / 3</span>
+                        </div>
+                        <h3 class="font-serif text-2xl text-luxury-charcoal uppercase tracking-wide border-b border-gray-100 pb-4">
+                            Quelle affinité sensorielle vous séduit le plus ?
+                        </h3>
+                        <div class="space-y-3 pt-2">
+                            <div onclick="selectTexture('huile')" class="border p-4 rounded-sm cursor-pointer transition-all duration-300 hover:scale-[1.01] hover:shadow-sm border-gray-200 hover:border-luxury-goldDark/60 hover:bg-luxury-beige/40 flex items-center gap-4">
+                                <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center texture-radio" id="radio-huile">
+                                    <div class="w-2 h-2 rounded-full bg-luxury-goldDark hidden"></div>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-luxury-charcoal uppercase tracking-wider">Huiles & Soies Précieuses</span>
+                                    <span class="block text-[10px] text-gray-500 mt-0.5 font-medium">Des matières enveloppantes et douces, laissant un voile protecteur satiné.</span>
+                                </div>
+                            </div>
+                            <div onclick="selectTexture('creme')" class="border p-4 rounded-sm cursor-pointer transition-all duration-300 hover:scale-[1.01] hover:shadow-sm border-gray-200 hover:border-luxury-goldDark/60 hover:bg-luxury-beige/40 flex items-center gap-4">
+                                <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center texture-radio" id="radio-creme">
+                                    <div class="w-2 h-2 rounded-full bg-luxury-goldDark hidden"></div>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-luxury-charcoal uppercase tracking-wider">Émulsions Fondantes & Veloutées</span>
+                                    <span class="block text-[10px] text-gray-500 mt-0.5 font-medium">Des crèmes légères qui fusionnent au contact pour hydrater en souplesse.</span>
+                                </div>
+                            </div>
+                            <div onclick="selectTexture('fluide')" class="border p-4 rounded-sm cursor-pointer transition-all duration-300 hover:scale-[1.01] hover:shadow-sm border-gray-200 hover:border-luxury-goldDark/60 hover:bg-luxury-beige/40 flex items-center gap-4">
+                                <div class="w-4 h-4 rounded-full border border-gray-300 flex items-center justify-center texture-radio" id="radio-fluide">
+                                    <div class="w-2 h-2 rounded-full bg-luxury-goldDark hidden"></div>
+                                </div>
+                                <div>
+                                    <span class="block text-xs font-bold text-luxury-charcoal uppercase tracking-wider">Fluides Rafraîchissants & Légers</span>
+                                    <span class="block text-[10px] text-gray-500 mt-0.5 font-medium">Des textures aqueuses fraîches, des métaux fins légers et épurés sur la peau.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- POETIC LOADER -->
+                    <div id="loader" class="hidden py-16 flex flex-col items-center justify-center text-center space-y-6 animate-luxury-in">
+                        <div class="w-14 h-14 border-[3px] border-t-luxury-goldDark border-r-transparent border-gray-100 rounded-full animate-spin"></div>
+                        <span id="loaderText" class="text-[11px] tracking-[0.25em] text-luxury-goldDark font-bold uppercase block animate-pulse">
+                            Analyse de vos affinités épidermiques...
+                        </span>
+                    </div>
+
+                    <!-- STEP 4: RECOMMENDATION RESULT -->
+                    <div id="step4" class="space-y-6 hidden animate-luxury-in">
+                        <div class="text-center border-b border-gray-100 pb-5">
+                            <span class="text-[9px] tracking-[0.25em] text-luxury-goldDark font-bold uppercase block mb-1">
+                                DIAGNOSTIC ACCOMPLI AVEC SUCCÈS
+                            </span>
+                            <h3 class="font-serif text-2xl text-luxury-charcoal uppercase tracking-widest">
+                                VOTRE RECOMMANDATION DE PRESTIGE
+                            </h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                            <!-- Image Container -->
+                            <div class="md:col-span-5 relative aspect-square w-full border border-gray-100 p-2 bg-luxury-beige rounded-sm overflow-hidden flex items-center justify-center">
+                                <img id="recImage" src="" alt="Rituel" class="object-cover w-full h-full rounded-sm">
+                            </div>
+
+                            <!-- Details -->
+                            <div class="md:col-span-7 space-y-4">
+                                <span id="recTagline" class="text-[9px] font-bold tracking-[0.2em] text-luxury-goldDark uppercase block">
+                                    SOIN SUBLIMATEUR
+                                </span>
+                                <h4 id="recTitle" class="font-serif text-xl font-bold text-luxury-charcoal uppercase tracking-wide">
+                                    Titre du Rituel
+                                </h4>
+                                <p id="recDesc" class="text-xs text-gray-500 leading-relaxed font-medium">
+                                    Description personnalisée.
+                                </p>
+
+                                <div class="text-xs text-luxury-charcoal font-bold tracking-wide font-sans">
+                                    Tarif Exclusif : <span id="recPrice" class="text-luxury-goldDark font-mono text-sm"></span>
+                                </div>
+
+                                <div class="pt-2">
+                                    <button id="addToCartBtn" onclick="simulateAddToCart()" class="w-full py-4 bg-luxury-charcoal hover:bg-luxury-goldDark text-white text-[9px] font-bold uppercase tracking-[0.25em] transition-all duration-300 rounded-sm hover:scale-[1.02] shadow-md shadow-black/5">
+                                        AJOUTER LE RITUEL AU PANIER
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- VIP Coupon Card -->
+                        <div class="border border-dashed border-luxury-goldDark bg-luxury-beige/50 p-5 rounded-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mt-6">
+                            <div>
+                                <span class="text-[9px] font-bold text-luxury-goldDark tracking-wider uppercase block">
+                                    CODE PRIVILÈGE MAISON
+                                </span>
+                                <p class="text-[10px] text-gray-500 mt-0.5 font-semibold">
+                                    Bénéficiez de 10% offerts sur cette recommandation avec le code :
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span id="recCoupon" class="px-3 py-1.5 bg-white border border-luxury-goldDark/30 font-mono text-xs font-bold text-luxury-charcoal tracking-wider rounded-sm select-all">
+                                    SOIEIMP10
+                                </span>
+                                <button onclick="copyCouponCode()" class="px-4 py-1.5 bg-luxury-charcoal text-white text-[9px] font-bold uppercase tracking-wider rounded-sm hover:bg-luxury-goldDark transition-colors">
+                                    COPIER
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Reset -->
+                        <div class="text-center pt-4">
+                            <button onclick="resetQuiz()" class="text-[9px] font-bold tracking-[0.2em] text-gray-400 uppercase hover:text-luxury-charcoal transition-colors">
+                                &larr; RECOMMENCER LE DIAGNOSTIC
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- RIGHT PANEL: AliExpress Dropshipping fulfillment Sandbox Simulator (5 Columns) -->
+        <section class="lg:col-span-5 space-y-6">
+            <div class="bg-white border border-gray-100 luxury-shadow rounded-sm p-6 space-y-6">
+                
+                <div class="border-b border-gray-100 pb-3 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-luxury-goldDark" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                    </svg>
+                    <div>
+                        <h2 class="font-serif text-md font-bold uppercase tracking-wider text-luxury-charcoal">Simulateur Dropshipping</h2>
+                        <p class="text-[9px] uppercase tracking-widest text-gray-400 font-medium">Scraping AliExpress & Synchronisation de Commande</p>
+                    </div>
+                </div>
+
+                <!-- Scraping Form -->
+                <div class="space-y-3">
+                    <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500">URL AliExpress Réelle à scraper (Démo)</label>
+                    <input type="text" id="aliexpressUrl" class="w-full px-3 py-2 border border-gray-200 rounded-sm text-xs focus:outline-none focus:border-luxury-goldDark font-mono bg-luxury-beige/30" 
+                           value="https://fr.aliexpress.com/item/1005006234567.html">
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500">Markup (Coeff multiplicateur)</label>
+                            <input type="number" id="aliexpressMarkup" class="w-full px-3 py-2 border border-gray-200 rounded-sm text-xs focus:outline-none focus:border-luxury-goldDark font-mono bg-luxury-beige/30" 
+                                   value="3.0" step="0.5" min="1">
+                        </div>
+                        <div>
+                            <label class="block text-[10px] font-bold uppercase tracking-wider text-gray-500">Catégorie Luxe</label>
+                            <select id="aliexpressCategory" class="w-full px-3 py-2 border border-gray-200 rounded-sm text-xs focus:outline-none focus:border-luxury-goldDark bg-luxury-beige/30 font-medium">
+                                <option value="beauty">Beauty</option>
+                                <option value="loungewear">Loungewear</option>
+                                <option value="accessories">Accessories</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button onclick="simulateScraper()" class="w-full py-3 bg-luxury-goldDark hover:bg-luxury-charcoal text-white text-[9px] font-bold uppercase tracking-[0.2em] transition-all duration-300 rounded-sm shadow-md">
+                        DÉCLENCHER LE SCRAPING & L'IMPORT
+                    </button>
+                </div>
+
+                <!-- Simulation Output Terminal -->
+                <div class="space-y-2">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-gray-500">Logs d'intégration API</span>
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-ping"></span>
+                    </div>
+                    <div id="terminalLogs" class="w-full h-48 bg-luxury-charcoal text-green-400 font-mono text-[10px] p-3.5 rounded-sm overflow-y-auto space-y-1.5 border border-gray-800 shadow-inner">
+                        <div>[SYSTEM] Simulateur prêt. En attente d'actions...</div>
+                    </div>
+                </div>
+
+                <!-- Orders placed list simulated -->
+                <div class="space-y-3 bg-luxury-beige/40 p-4 border border-gray-200/40 rounded-sm">
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-luxury-goldDark block">
+                        Synchronisation Automatique sur order.placed (Dropship Sync)
+                    </span>
+                    <p class="text-[10px] text-gray-500 leading-normal font-medium">
+                        Lorsqu'une commande contenant un SKU dropship (commençant par <code class="font-bold text-luxury-charcoal font-mono">NIHAN-</code>) est validée, le subscriber Medusa capture l'événement pour commander automatiquement chez le fournisseur AliExpress.
+                    </p>
+                    <div class="pt-1">
+                        <button onclick="simulateOrderPlacement()" class="px-4 py-2 border border-luxury-charcoal hover:bg-luxury-charcoal hover:text-white text-luxury-charcoal text-[9px] font-bold uppercase tracking-wider rounded-sm transition-all duration-300">
+                            Simuler une Commande Client (order.placed)
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[#E5E7EB]/40 bg-white py-6 mt-8">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <span class="text-[10px] text-gray-400 font-semibold tracking-wider uppercase">&copy; 2026 Maison NIHAN — Tous Droits Réservés.</span>
+            <div class="flex gap-4">
+                <a href="#" class="text-[10px] text-gray-400 hover:text-luxury-goldDark font-semibold uppercase tracking-wider transition-colors">Stripe Test Mode</a>
+                <span class="text-gray-300">|</span>
+                <a href="#" class="text-[10px] text-gray-400 hover:text-luxury-goldDark font-semibold uppercase tracking-wider transition-colors">AliExpress DSers API</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Simulator JS Logic -->
+    <script>
+        // Core State
+        let quizAnswers = {
+            skinType: '',
+            mainConcern: '',
+            texture: ''
+        };
+        
+        let importedProducts = [];
+
+        // Steps Handling
+        function startQuiz() {
+            document.getElementById('step0').classList.add('hidden');
+            document.getElementById('step1').classList.remove('hidden');
+            
+            const progress = document.getElementById('progressBarContainer');
+            progress.classList.remove('hidden');
+            updateProgress(33);
+            logTerminal('Diagnostic démarré. Question 1 de 3 en attente...');
+        }
+
+        function updateProgress(percentage) {
+            document.getElementById('progressBar').style.width = percentage + '%';
+        }
+
+        function selectSkin(type) {
+            quizAnswers.skinType = type;
+            document.querySelectorAll('.skin-radio div').forEach(div => div.classList.add('hidden'));
+            document.getElementById('radio-' + type).querySelector('div').classList.remove('hidden');
+            
+            logTerminal(`[DIAGNOSTIC] Nature d'épiderme sélectionnée : ${type.toUpperCase()}`);
+            
+            setTimeout(() => {
+                document.getElementById('step1').classList.add('hidden');
+                document.getElementById('step2').classList.remove('hidden');
+                updateProgress(66);
+            }, 300);
+        }
+
+        function selectConcern(concern) {
+            quizAnswers.mainConcern = concern;
+            document.querySelectorAll('.concern-radio div').forEach(div => div.classList.add('hidden'));
+            document.getElementById('radio-' + concern).querySelector('div').classList.remove('hidden');
+            
+            logTerminal(`[DIAGNOSTIC] Préoccupation sélectionnée : ${concern.toUpperCase()}`);
+            
+            setTimeout(() => {
+                document.getElementById('step2').classList.add('hidden');
+                document.getElementById('step3').classList.remove('hidden');
+                updateProgress(100);
+            }, 300);
+        }
+
+        function selectTexture(texture) {
+            quizAnswers.texture = texture;
+            document.querySelectorAll('.texture-radio div').forEach(div => div.classList.add('hidden'));
+            document.getElementById('radio-' + texture).querySelector('div').classList.remove('hidden');
+            
+            logTerminal(`[DIAGNOSTIC] Affinité de texture sélectionnée : ${texture.toUpperCase()}`);
+            
+            setTimeout(() => {
+                document.getElementById('step3').classList.add('hidden');
+                runPoeticLoader();
+            }, 300);
+        }
+
+        // Beautiful Poetic Loading Screen Simulator
+        function runPoeticLoader() {
+            const loader = document.getElementById('loader');
+            const loaderText = document.getElementById('loaderText');
+            loader.classList.remove('hidden');
+            
+            const stages = [
+                "Analyse de vos affinités épidermiques...",
+                "Calcul des synergies actives botaniques...",
+                "Harmonisation de votre rituel de nuit de soie...",
+                "Sublimation de votre diagnostic de prestige..."
+            ];
+            
+            let currentStage = 0;
+            
+            const interval = setInterval(() => {
+                currentStage++;
+                if (currentStage < stages.length) {
+                    loaderText.innerText = stages[currentStage];
+                    logTerminal(`[DÉMO-SYNTHÈSE] ${stages[currentStage]}`);
+                } else {
+                    clearInterval(interval);
+                    loader.classList.add('hidden');
+                    showRecommendation();
+                }
+            }, 850);
+        }
+
+        // Recommendation Logic matching Medusa Backend algorithms
+        function showRecommendation() {
+            document.getElementById('progressBarContainer').classList.add('hidden');
+            const step4 = document.getElementById('step4');
+            step4.classList.remove('hidden');
+
+            let recommendation = {
+                title: "La Parure d'Or Minimaliste",
+                tagline: "Créations de Joaillerie et Colliers en Or Fin",
+                desc: "Pour sublimer votre éclat naturel au quotidien avec une touche de géométrie noble, la Maison vous conseille sa collection de bijoux épurés. Un collier en or jaune satiné reposant avec légèreté sur la peau, pour signer vos tenues d'une élégance souveraine.",
+                image: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=400&q=80",
+                price: "450,00 €",
+                coupon: "PARURE10"
+            };
+
+            // Comfort/Sleep -> Mulberry Silk Loungewear
+            if (quizAnswers.mainConcern === 'sommeil') {
+                recommendation = {
+                    title: "Le Rituel de Soie Impériale",
+                    tagline: "Lingerie & Ensembles de Nuit en Pure Soie de Mûrier",
+                    desc: "En réponse à votre recherche d'apaisement nocturne et de confort absolu, la Maison vous recommande sa Soie Impériale. Un ensemble façonné dans une soie de 22 mommes d'une douceur exceptionnelle, régulant naturellement votre température corporelle pour un sommeil céleste.",
+                    image: "https://images.unsplash.com/photo-1562572159-4ebcd318f4dd?auto=format&fit=crop&w=400&q=80",
+                    price: "220,00 €",
+                    coupon: "SOIEIMP10"
+                };
+            }
+            // Dry skin or aging -> L'Or de Nihan Skincare
+            else if (quizAnswers.skinType === 'seche' || quizAnswers.mainConcern === 'anti_age') {
+                recommendation = {
+                    title: "Le Rituel L'Or de Nihan",
+                    tagline: "Sérum Rénovateur Éclat Infini & Huiles Précieuses",
+                    desc: "Votre peau demande une régénération profonde et une texture riche enveloppante. La Maison vous propose l'incomparable Rituel L'Or de Nihan. Infusé d'actifs antioxydants rares et de reflets d'or fins, ce sérum soyeux réhydrate intensément, raffermit et ravive l'éclat de votre épiderme.",
+                    image: "https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?auto=format&fit=crop&w=400&q=80",
+                    price: "85,00 €",
+                    coupon: "RITUELOR10"
+                };
+            }
+
+            // Fill HTML
+            document.getElementById('recTitle').innerText = recommendation.title;
+            document.getElementById('recTagline').innerText = recommendation.tagline;
+            document.getElementById('recDesc').innerText = recommendation.desc;
+            document.getElementById('recImage').src = recommendation.image;
+            document.getElementById('recPrice').innerText = recommendation.price;
+            document.getElementById('recCoupon').innerText = recommendation.coupon;
+
+            logTerminal(`[DIAGNOSTIC COMPLÉTÉ] Produit recommandé : ${recommendation.title.toUpperCase()}`);
+        }
+
+        function resetQuiz() {
+            quizAnswers = { skinType: '', mainConcern: '', texture: '' };
+            document.getElementById('step4').classList.add('hidden');
+            document.getElementById('step0').classList.remove('hidden');
+            
+            document.querySelectorAll('.skin-radio div').forEach(div => div.classList.add('hidden'));
+            document.querySelectorAll('.concern-radio div').forEach(div => div.classList.add('hidden'));
+            document.querySelectorAll('.texture-radio div').forEach(div => div.classList.add('hidden'));
+            
+            logTerminal('[DIAGNOSTIC] Réinitialisation du questionnaire diagnostic.');
+        }
+
+        // Add to Cart
+        function simulateAddToCart() {
+            const btn = document.getElementById('addToCartBtn');
+            btn.innerText = "AJOUT EN COURS...";
+            btn.disabled = true;
+            
+            logTerminal('[PANIER] Envoi de la requête à Medusa Cart API (POST /store/carts/items)...');
+
+            setTimeout(() => {
+                btn.innerText = "✓ RITUEL AJOUTÉ AU PANIER !";
+                btn.classList.remove('bg-luxury-charcoal');
+                btn.classList.add('bg-green-700');
+                logTerminal('[PANIER] Succès ! Le produit a été inséré dans le panier de session client.');
+            }, 800);
+        }
+
+        function copyCouponCode() {
+            const code = document.getElementById('recCoupon').innerText;
+            navigator.clipboard.writeText(code);
+            logTerminal(`[DIAGNOSTIC] Code privilège VIP copié : ${code}`);
+            alert("Code promo copié avec succès !");
+        }
+
+        // Dropship Sandbox Simulator
+        function simulateScraper() {
+            const url = document.getElementById('aliexpressUrl').value;
+            const markup = document.getElementById('aliexpressMarkup').value;
+            const category = document.getElementById('aliexpressCategory').value;
+
+            logTerminal(`[SCRAPER] Lancement de l'extraction sur l'URL : ${url}...`);
+            logTerminal(`[SCRAPER] Headers : User-Agent et sélecteurs de prestige configurés.`);
+            
+            setTimeout(() => {
+                let parsedTitle = "Sérum Anti-Rides Concentré Rétinol Pur 2.5%";
+                let parsedImage = "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=400&q=80";
+                
+                if (category === 'loungewear') {
+                    parsedTitle = "Robe de Nuit en Soie Pure Fleurie - Collection Céleste";
+                    parsedImage = "https://images.unsplash.com/photo-1549064492-c4199c104c7a?auto=format&fit=crop&w=400&q=80";
+                } else if (category === 'accessories') {
+                    parsedTitle = "Bague Fine Or Jaune 18k Martelé - Épure";
+                    parsedImage = "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=400&q=80";
+                }
+
+                logTerminal(`[SCRAPER] [SUCCÈS] og:title extrait : "${parsedTitle}"`);
+                logTerminal(`[SCRAPER] [SUCCÈS] Image CDN AliExpress localisée.`);
+                
+                const originalPrice = 29.90;
+                const sellingPrice = Math.round(originalPrice * markup);
+                
+                const productSku = `NIHAN-${category.toUpperCase()}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+                const newProduct = {
+                    title: parsedTitle,
+                    sku: productSku,
+                    price: sellingPrice + ",00 €",
+                    category: category,
+                    image: parsedImage
+                };
+
+                importedProducts.push(newProduct);
+
+                logTerminal(`[MEDUSA FLOW] Création du produit dans Medusa DB...`);
+                logTerminal(`[MEDUSA FLOW] Produit créé : "${parsedTitle}"`);
+                logTerminal(`[MEDUSA FLOW] Catégorie : ${category.toUpperCase()}`);
+                logTerminal(`[MEDUSA FLOW] SKU Généré : ${productSku}`);
+                logTerminal(`[MEDUSA FLOW] Prix configuré avec markup x${markup} : ${sellingPrice},00 € (Original: ${originalPrice} €)`);
+                
+                alert(`Succès ! Produit AliExpress importé dans le catalogue Medusa avec SKU ${productSku} et prix configuré à ${sellingPrice},00 €.`);
+            }, 1200);
+        }
+
+        function simulateOrderPlacement() {
+            if (importedProducts.length === 0) {
+                logTerminal("[ERREUR] Veuillez d'abord importer un produit avec le bouton 'Déclencher le Scraping' ci-dessus !");
+                alert("Veuillez d'abord importer un produit AliExpress pour le simuler.");
+                return;
+            }
+
+            const activeProd = importedProducts[importedProducts.length - 1];
+            logTerminal(`[BOUTIQUE] Client valide son panier sur le checkout Next.js...`);
+            logTerminal(`[BOUTIQUE] Paiement Stripe simulé (Statut: SUCCESS)...`);
+            
+            setTimeout(() => {
+                const orderId = `ord_${Math.floor(100000 + Math.random() * 900000)}`;
+                logTerminal(`[MEDUSA SYSTEM] Événement déclenché : order.placed (ID: ${orderId})`);
+                logTerminal(`[SUBSCRIBER] orderPlacedAliExpressHandler capturé.`);
+                logTerminal(`[SUBSCRIBER] Filtrage des articles dropship... Trouvé: SKU ${activeProd.sku}`);
+                
+                // Address Sync
+                logTerminal(`[SUBSCRIBER] Coordonnées client prêtes pour le gateway : 16 Place Vendôme, Paris, FR`);
+                logTerminal(`[ALIEXPRESS INTEGRATION] Envoi automatique des coordonnées vers AliExpress open API...`);
+                
+                setTimeout(() => {
+                    const trackingNumber = `LP006${Math.floor(10000000 + Math.random() * 90000000)}FR`;
+                    logTerminal(`[ALIEXPRESS INTEGRATION] Commande enregistrée chez le fournisseur.`);
+                    logTerminal(`[ALIEXPRESS INTEGRATION] Succès ! Numéro de suivi généré : ${trackingNumber}`);
+                    logTerminal(`[SYSTEM] La commande ${orderId} est maintenant synchronisée en dropshipping.`);
+                    alert(`Succès ! La commande ${orderId} a été passée automatiquement sur AliExpress avec le numéro de suivi : ${trackingNumber}`);
+                }, 1000);
+            }, 1000);
+        }
+
+        // Terminal Log Utility
+        function logTerminal(message) {
+            const term = document.getElementById('terminalLogs');
+            const div = document.createElement('div');
+            div.innerText = `> ${message}`;
+            term.appendChild(div);
+            term.scrollTop = term.scrollHeight;
+        }
+    </script>
+</body>
+</html>

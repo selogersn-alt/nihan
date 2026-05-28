@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # 1. PostgreSQL Database Container (Isolated & Pre-configured)
+  maison-nihan-db:
+    image: postgres:15-alpine
+    container_name: maison-nihan-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: AkueMax@2022
+      POSTGRES_DB: nihan_db
+    ports:
+      - "9946:5432" # Exposes port 9946 on the VPS to match local environment configs
+    volumes:
+      - nihan-postgres-data:/var/lib/postgresql/data
+    networks:
+      - nihan-network
+
+  # 2. Redis Caching & Queue Container
+  maison-nihan-redis:
+    image: redis:7-alpine
+    container_name: maison-nihan-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - nihan-redis-data:/data
+    networks:
+      - nihan-network
+
+  # 3. Medusa v2 Backend Container
+  maison-nihan-backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    container_name: maison-nihan-backend
+    restart: always
+    depends_on:
+      - maison-nihan-db
+      - maison-nihan-redis
+    ports:
+      - "9000:9000" # Exposes port 9000 for admin panel & storefront client calls
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - PORT=9000
+      - DATABASE_URL=postgresql://postgres:AkueMax%402022@maison-nihan-db:5432/nihan_db
+      - REDIS_URL=redis://maison-nihan-redis:6379
+      - JWT_SECRET=supersecret
+      - COOKIE_SECRET=supersecret
+      - STRIPE_API_KEY=sk_test_51PjP2yH7rUX1yR9eZtE1S1y8L1E2c3B4A5D6E7F8G9H0
+      # CORS configuration supporting localhost, direct IP, and your subdomain
+      - STORE_CORS=http://localhost:8000,http://127.0.0.1:8000,http://nihan.digitalh.net,https://nihan.digitalh.net,http://157.180.127.70:8000,/.*/
+      - ADMIN_CORS=http://localhost:5173,http://localhost:9000,http://nihan.digitalh.net/admin,https://nihan.digitalh.net/admin,http://157.180.127.70:9000,/.*/
+      - AUTH_CORS=http://localhost:5173,http://localhost:9000,http://nihan.digitalh.net,https://nihan.digitalh.net,http://157.180.127.70:9000,/.*/
+    networks:
+      - nihan-network
+
+  # 4. Next.js 15 Storefront Container
+  maison-nihan-storefront:
+    build:
+      context: .
+      dockerfile: apps/storefront/Dockerfile
+    container_name: maison-nihan-storefront
+    restart: always
+    depends_on:
+      - maison-nihan-backend
+    ports:
+      - "8000:8000" # Next.js frontend port (to point your subdomain reverse proxy to)
+    environment:
+      - NODE_ENV=development
+      - HOSTNAME=0.0.0.0
+      - PORT=8000
+      - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_5ffce8036cc6a176fddb6390c067fbfbc449e2b4ff75103358daad4d65f6a825
+      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://nihan.digitalh.net:9000
+      - NEXT_PUBLIC_BASE_URL=http://nihan.digitalh.net
+      - NEXT_PUBLIC_DEFAULT_REGION=dk
+      - NEXT_PUBLIC_STRIPE_KEY=pk_test_51PjP2yH7rUX1yR9eZtE1S1y8L1E2c3B4A5D6E7F8G9H0
+    networks:
+      - nihan-network
+
+volumes:
+  nihan-postgres-data:
+    driver: local
+  nihan-redis-data:
+    driver: local
+
+networks:
+  nihan-network:
+    driver: bridge
