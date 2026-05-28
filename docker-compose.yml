@@ -63,7 +63,7 @@ services:
     depends_on:
       - maison-nihan-backend
     ports:
-      - "8000:8000" # Next.js frontend port (to point your subdomain reverse proxy to)
+      - "8080:8000" # Next.js frontend port (to point your subdomain reverse proxy to)
     environment:
       - NODE_ENV=development
       - HOSTNAME=0.0.0.0
