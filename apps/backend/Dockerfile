@@ -21,4 +21,4 @@ WORKDIR /app/apps/backend
 EXPOSE 9000
 
 # Start Medusa development server (automatically runs migrations and seeding setup)
-CMD ["sh", "-c", "npx medusa db:migrate && pnpm run dev"]
+CMD ["sh", "-c", "pnpm exec medusa db:migrate && pnpm run dev"]
